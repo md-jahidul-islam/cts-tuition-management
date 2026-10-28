@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTS Admin | Chittagong Tutor Service Management Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              950: '#060B18',
+              900: '#0A122A',
+              850: '#0F1B3E',
+              800: '#152554',
+              700: '#1D3577',
+              600: '#2A4A9F',
+              500: '#3B64C8',
+            },
+            gold: {
+              50: '#FFFDF0',
+              100: '#FEF9C3',
+              200: '#FEF08A',
+              300: '#FDE047',
+              400: '#FACC15',
+              500: '#EAB308',
+              600: '#CA8A04',
+              700: '#A16207',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Main App Wrapper -->
+  <div class="flex flex-1 min-h-screen overflow-hidden">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="w-64 bg-brand-950 text-slate-300 flex flex-col justify-between shrink-0 fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out border-r border-slate-800">
+      
+      <!-- Brand Logo & Header -->
+      <div>
+        <div class="h-16 flex items-center justify-between px-5 border-b border-slate-800 bg-brand-900/60">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-lg bg-amber-500 text-brand-950 flex items-center justify-center font-black text-xl shadow-md tracking-wider">
+              CTS
+            </div>
+            <div>
+              <span class="font-extrabold text-white text-base tracking-tight block leading-tight">CHITTAGONG</span>
+              <span class="text-[10px] text-amber-400 font-semibold tracking-wider uppercase block">Tutor Service</span>
+            </div>
+          </div>
+          <!-- Mobile Close Button -->
+          <button id="close-sidebar-btn" class="lg:hidden text-slate-400 hover:text-white p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="p-3 space-y-1 text-sm font-medium">
+          <a href="#" data-view="dashboard" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            Dashboard
+          </a>
+
+          <a href="#" data-view="tutors" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            Tutor Management
+          </a>
+
+          <a href="#" data-view="requests" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            Tuition Requirements
+          </a>
+
+          <a href="#" data-view="matching" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            Tutor Matching Desk
+          </a>
+
+          <a href="#" data-view="pipeline" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+            11-Stage Pipeline
+          </a>
+
+          <a href="#" data-view="post-gen" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+            Post Generator
+          </a>
+
+          <a href="#" data-view="accounts" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Media Fees & Accounts
+          </a>
+
+          <a href="#" data-view="followups" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            Follow-up & Calls
+          </a>
+
+          <a href="#" data-view="reviews" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+            Reviews & Moderation
+          </a>
+
+          <a href="#" data-view="reports" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Reports & Analytics
+          </a>
+
+          <a href="#" data-view="settings" class="nav-link flex items-center px-3 py-2.5 rounded-lg transition text-slate-300 hover:bg-slate-800/60">
+            <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            Settings & Backup
+          </a>
+        </nav>
+      </div>
+
+      <!-- Public Portal Link & Version Info -->
+      <div class="p-4 border-t border-slate-800 bg-brand-900/40">
+        <a href="public.html" target="_blank" class="flex items-center justify-between w-full p-2.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold transition">
+          <span>🌐 View Public Portal</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+        <div class="mt-3 text-[11px] text-slate-500 text-center">
+          CTS Media OS v1.0 • Chittagong
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+      <!-- Top Header Bar -->
+      <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 shadow-sm sticky top-0 z-20">
+        <div class="flex items-center space-x-3">
+          <button id="mobile-sidebar-toggle" class="lg:hidden text-slate-600 hover:text-slate-900 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          </button>
+          <div>
+            <h1 class="text-lg font-extrabold text-brand-950 tracking-tight">Chittagong Tutor Service (CTS)</h1>
+            <p class="text-xs text-slate-500 hidden sm:block">Central Internal Administration & Media Management</p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <!-- MVP Browser Notice Pill -->
+          <span class="hidden md:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200">
+            <span class="w-2 h-2 rounded-full bg-amber-500 mr-1.5 animate-pulse"></span>
+            Single-Browser MVP (LocalStorage)
+          </span>
+
+          <!-- Quick Action Buttons -->
+          <button onclick="window.CTSApp.openAddRequestModal()" class="px-3.5 py-2 text-xs font-bold rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-sm transition flex items-center space-x-1.5">
+            <span>+ New Request</span>
+          </button>
+
+          <button onclick="window.CTSApp.openAddTutorModal()" class="px-3.5 py-2 text-xs font-bold rounded-lg bg-brand-950 hover:bg-brand-900 text-amber-400 shadow-sm transition flex items-center space-x-1.5">
+            <span>+ Add Tutor</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW PANELS CONTAINER -->
+      <main class="flex-1 p-6 max-w-7xl w-full mx-auto">
+
+        <!-- ==================================================== -->
+        <!-- 1. DASHBOARD OVERVIEW -->
+        <!-- ==================================================== -->
+        <div id="view-dashboard" class="view-panel space-y-6">
+
+          <!-- Welcome Banner -->
+          <div class="bg-gradient-to-r from-brand-950 via-brand-900 to-brand-850 text-white rounded-xl p-6 shadow-md border border-brand-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-slate-950 uppercase tracking-wider">CTS Admin Console</span>
+                <span class="text-xs text-slate-300">Coverage: Greater Chittagong & Bangladesh</span>
+              </div>
+              <h2 class="text-2xl font-black text-white mt-1">Operational Overview & Media Activity</h2>
+              <p class="text-sm text-slate-300 mt-1 max-w-2xl">
+                Track tuition match progressions, verified university mentors, scheduled trial classes, and media fee collection receivables.
+              </p>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+              <button onclick="window.CTSApp.switchView('matching')" class="px-4 py-2 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg shadow transition">
+                ⚡ Open Match Engine
+              </button>
+              <button onclick="window.CTSApp.switchView('pipeline')" class="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 transition">
+                11-Stage Pipeline
+              </button>
+            </div>
+          </div>
+
+          <!-- Clickable KPI Summary Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            
+            <div id="card-kpi-tutors" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Total Tutors Registered</div>
+              <div id="kpi-total-tutors" class="text-2xl font-black text-brand-950 mt-1">0</div>
+              <div class="text-[11px] text-amber-700 font-semibold mt-1">Click to view directory ➔</div>
+            </div>
+
+            <div id="card-kpi-verified" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Verified CTS Tutors</div>
+              <div id="kpi-verified-tutors" class="text-2xl font-black text-emerald-700 mt-1">0</div>
+              <div class="text-[11px] text-emerald-600 font-semibold mt-1">NID & Student ID verified ➔</div>
+            </div>
+
+            <div id="card-kpi-available" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Available Tutors</div>
+              <div id="kpi-available-tutors" class="text-2xl font-black text-blue-700 mt-1">0</div>
+              <div class="text-[11px] text-blue-600 font-semibold mt-1">Ready for tuition offer ➔</div>
+            </div>
+
+            <div id="card-kpi-new-reqs" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">New Tuition Requests</div>
+              <div id="kpi-new-requests" class="text-2xl font-black text-sky-700 mt-1">0</div>
+              <div class="text-[11px] text-sky-600 font-semibold mt-1">Needs verification ➔</div>
+            </div>
+
+            <div id="card-kpi-matching" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Matching / Contacting</div>
+              <div id="kpi-matching-progress" class="text-2xl font-black text-amber-700 mt-1">0</div>
+              <div class="text-[11px] text-amber-600 font-semibold mt-1">Active pipeline stage ➔</div>
+            </div>
+
+            <div id="card-kpi-confirmed" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Confirmed / Placed</div>
+              <div id="kpi-confirmed-tuitions" class="text-2xl font-black text-emerald-800 mt-1">0</div>
+              <div class="text-[11px] text-emerald-600 font-semibold mt-1">Trial approved by guardian ➔</div>
+            </div>
+
+            <div id="card-kpi-fees-collected" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-emerald-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Media Fees Collected</div>
+              <div id="kpi-fees-collected" class="text-2xl font-black text-emerald-700 mt-1">৳ 0</div>
+              <div class="text-[11px] text-emerald-600 font-semibold mt-1">bKash / Nagad / Bank ➔</div>
+            </div>
+
+            <div id="card-kpi-fees-due" class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-rose-400 hover:shadow-md transition">
+              <div class="text-xs font-medium text-slate-500">Outstanding Fees Due</div>
+              <div id="kpi-fees-due" class="text-2xl font-black text-rose-700 mt-1">৳ 0</div>
+              <div class="text-[11px] text-rose-600 font-semibold mt-1">Pending collections ➔</div>
+            </div>
+
+          </div>
+
+          <!-- Activity & Urgent Follow-up Split -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            <!-- Recent Activity Stream -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="font-bold text-slate-900 text-sm">Real-time CTS Activity Log</h3>
+                <span class="text-xs text-slate-400">Latest actions</span>
+              </div>
+              <div id="dashboard-activities" class="mt-2 divide-y divide-slate-100 max-h-72 overflow-y-auto">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+            <!-- Urgent Follow-ups & Reminders -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="font-bold text-slate-900 text-sm">Scheduled Follow-ups & Trial Checks</h3>
+                <button onclick="window.CTSApp.switchView('followups')" class="text-xs text-amber-600 font-bold hover:underline">
+                  View All Log
+                </button>
+              </div>
+              <div id="dashboard-urgent-followups" class="mt-3">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 2. TUTOR MANAGEMENT VIEW -->
+        <!-- ==================================================== -->
+        <div id="view-tutors" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">Tutor Directory & Verification Desk</h2>
+              <p class="text-xs text-slate-500">Manage university mentors, credentials, profile completeness, and areas.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span id="tutors-count-badge" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-200 text-slate-700">0 Tutors</span>
+              <button onclick="window.CTSApp.exportTutorsCSV()" class="px-3 py-2 text-xs font-semibold rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-300">
+                Export CSV
+              </button>
+              <button onclick="window.CTSApp.openAddTutorModal()" class="px-3.5 py-2 text-xs font-bold rounded bg-brand-950 hover:bg-brand-900 text-amber-400 shadow">
+                + Register Tutor
+              </button>
+            </div>
+          </div>
+
+          <!-- Filters Bar -->
+          <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+            <input id="tutor-filter-search" type="text" placeholder="Search name, phone, ID, subject..." class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none md:col-span-2">
+            
+            <select id="tutor-filter-verification" class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none">
+              <option value="">Verification: All</option>
+              <option value="Verified">Verified Only</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Pending">Pending</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+
+            <select id="tutor-filter-availability" class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none">
+              <option value="">Availability: All</option>
+              <option value="Available">Available</option>
+              <option value="Busy">Busy (Engaged)</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+
+            <select id="tutor-filter-gender" class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none">
+              <option value="">Gender: All</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+
+          <!-- Tutors Table -->
+          <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100/80 text-slate-700 font-bold text-xs border-b border-slate-200 uppercase tracking-wider">
+                  <th class="py-3 px-4">Tutor ID</th>
+                  <th class="py-3 px-4">Tutor Details</th>
+                  <th class="py-3 px-4">Academic Background</th>
+                  <th class="py-3 px-4">Areas & Exp</th>
+                  <th class="py-3 px-4">CTS Verification</th>
+                  <th class="py-3 px-4">Status & Expectation</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tutors-table-body" class="divide-y divide-slate-200">
+                <!-- Injected via app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 3. TUITION REQUIREMENTS VIEW -->
+        <!-- ==================================================== -->
+        <div id="view-requests" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">Guardian & Tuition Requirements</h2>
+              <p class="text-xs text-slate-500">Record, filter, monitor and track all tuition inquiries across Chittagong.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span id="requests-count-badge" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-200 text-slate-700">0 Requests</span>
+              <button onclick="window.CTSApp.exportRequestsCSV()" class="px-3 py-2 text-xs font-semibold rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-300">
+                Export CSV
+              </button>
+              <button onclick="window.CTSApp.openAddRequestModal()" class="px-3.5 py-2 text-xs font-bold rounded bg-amber-500 hover:bg-amber-600 text-slate-950 shadow">
+                + New Requirement
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+            <input id="request-filter-search" type="text" placeholder="Search guardian, code, area, subjects..." class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none md:col-span-2">
+            
+            <select id="request-filter-status" class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none">
+              <option value="">Pipeline Stage: All</option>
+              <option value="NEW REQUEST">NEW REQUEST</option>
+              <option value="VERIFY REQUIREMENT">VERIFY REQUIREMENT</option>
+              <option value="FIND TUTORS">FIND TUTORS</option>
+              <option value="CONTACT TUTORS">CONTACT TUTORS</option>
+              <option value="SHORTLIST">SHORTLIST</option>
+              <option value="GUARDIAN APPROVAL">GUARDIAN APPROVAL</option>
+              <option value="TRIAL CLASS">TRIAL CLASS</option>
+              <option value="CONFIRM TUITION">CONFIRM TUITION</option>
+              <option value="COMPLETE">COMPLETE</option>
+              <option value="COLLECT MEDIA FEE">COLLECT MEDIA FEE</option>
+              <option value="FOLLOW-UP">FOLLOW-UP</option>
+            </select>
+
+            <select id="request-filter-curriculum" class="p-2 border border-slate-300 rounded focus:ring-1 focus:ring-amber-500 outline-none">
+              <option value="">Curriculum: All</option>
+              <option value="Bangla Medium">Bangla Medium</option>
+              <option value="English Version">English Version</option>
+              <option value="English Medium (Edexcel/Cambridge)">English Medium</option>
+              <option value="Admission Preparation">Admission Prep</option>
+            </select>
+          </div>
+
+          <!-- Requests Table -->
+          <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100/80 text-slate-700 font-bold text-xs border-b border-slate-200 uppercase tracking-wider">
+                  <th class="py-3 px-4">Code</th>
+                  <th class="py-3 px-4">Guardian & Student</th>
+                  <th class="py-3 px-4">Class & Subjects</th>
+                  <th class="py-3 px-4">Location & Schedule</th>
+                  <th class="py-3 px-4">Pipeline Status</th>
+                  <th class="py-3 px-4">Media Fee</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="requests-table-body" class="divide-y divide-slate-200">
+                <!-- Injected via app.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 4. TUTOR MATCHING DESK -->
+        <!-- ==================================================== -->
+        <div id="view-matching" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">CTS Smart Tutor Matching Engine</h2>
+              <p class="text-xs text-slate-500">Weighted criteria matching based on area proximity, subject overlap, medium, budget and gender.</p>
+            </div>
+            <!-- Important Disclaimer Banner -->
+            <div class="px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-300 text-amber-900 text-xs">
+              <strong>Notice:</strong> Algorithmic matching provides objective recommendations. Final selection requires admin discretion.
+            </div>
+          </div>
+
+          <!-- Request Selector Header Card -->
+          <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Select Tuition Requirement to Match:</label>
+            <select id="match-request-selector" class="w-full p-2.5 border border-slate-300 rounded font-semibold text-slate-900 focus:ring-2 focus:ring-amber-500 outline-none text-sm">
+              <!-- Injected via app.js -->
+            </select>
+          </div>
+
+          <!-- Requirement Summary Card -->
+          <div id="match-request-summary">
+            <!-- Injected via app.js -->
+          </div>
+
+          <!-- Matching Candidate Results -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-bold text-slate-900 text-sm">Suggested Candidates (Ranked by Compatibility Score)</h3>
+              <span class="text-xs text-slate-500">Highest compatibility evaluated first</span>
+            </div>
+
+            <div id="matching-results-list" class="space-y-3">
+              <!-- Injected via app.js -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 5. 11-STAGE VISUAL TUITION PIPELINE -->
+        <!-- ==================================================== -->
+        <div id="view-pipeline" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">11-Stage Tuition Workflow Pipeline</h2>
+              <p class="text-xs text-slate-500">Visual Kanban tracking every requirement from initial inquiry to fee collection and follow-up.</p>
+            </div>
+            <div class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded border border-slate-200">
+              Stages are manually transitioned with audited timestamps.
+            </div>
+          </div>
+
+          <!-- Pipeline Columns Scroll Container -->
+          <div id="pipeline-columns-container" class="flex space-x-4 overflow-x-auto pb-4 pt-1">
+            <!-- 11 columns injected via app.js -->
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 6. TUITION POST GENERATOR -->
+        <!-- ==================================================== -->
+        <div id="view-post-gen" class="view-panel hidden space-y-4">
+
+          <div>
+            <h2 class="text-xl font-black text-brand-950">Tuition Post & Ad Generator Studio</h2>
+            <p class="text-xs text-slate-500">Generate privacy-safe social media circulars for Facebook groups, WhatsApp broadcasts, and bulletin boards.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Controls Panel -->
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Select Tuition Requirement:</label>
+                <select id="post-request-selector" class="w-full p-2 border border-slate-300 rounded text-xs">
+                  <!-- Injected via app.js -->
+                </select>
+              </div>
+
+              <div class="pt-2 border-t border-slate-100 space-y-2">
+                <span class="text-xs font-bold text-slate-700 block">Formatting Options:</span>
+                
+                <label class="flex items-center space-x-2 text-xs text-slate-700">
+                  <input type="checkbox" id="post-opt-emoji" checked class="rounded text-amber-500 focus:ring-amber-400">
+                  <span>Include Engaging Emojis (Facebook / WhatsApp)</span>
+                </label>
+
+                <label class="flex items-center space-x-2 text-xs text-slate-700">
+                  <input type="checkbox" id="post-opt-policy" checked class="rounded text-amber-500 focus:ring-amber-400">
+                  <span>Include CTS Media Fee Policy Notice</span>
+                </label>
+
+                <label class="flex items-center space-x-2 text-xs text-slate-700">
+                  <input type="checkbox" id="post-opt-hotline" checked class="rounded text-amber-500 focus:ring-amber-400">
+                  <span>Include CTS WhatsApp Hotline</span>
+                </label>
+              </div>
+
+              <!-- Privacy Shield Notice -->
+              <div class="p-3 bg-emerald-50 rounded-lg border border-emerald-200 text-xs text-emerald-900">
+                <strong class="block font-bold mb-1">🛡️ Privacy Shield Active:</strong>
+                Guardian full name, phone number, and exact house/flat numbers are strictly stripped. Only broad area (e.g. Nasirabad, Chittagong) is shared.
+              </div>
+
+              <button id="copy-post-btn" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-lg shadow transition flex items-center justify-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                <span>Copy Post to Clipboard</span>
+              </button>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="lg:col-span-2 bg-slate-900 text-white p-5 rounded-xl border border-slate-800 shadow-md flex flex-col">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                <span class="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">Live Ad Preview</span>
+                <span class="text-xs text-slate-400">Ready to broadcast</span>
+              </div>
+              <textarea id="post-preview-content" rows="16" class="w-full bg-slate-950 p-4 rounded-lg font-mono text-xs text-amber-200/90 border border-slate-800 focus:outline-none flex-1 leading-relaxed select-all" readonly></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 7. ACCOUNTS & FINANCIAL LEDGER -->
+        <!-- ==================================================== -->
+        <div id="view-accounts" class="view-panel hidden space-y-6">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">CTS Media Fee & Referral Accounts</h2>
+              <p class="text-xs text-slate-500">Track media fees (50% first month salary), referral commissions (20%), and collections ledger.</p>
+            </div>
+            <button onclick="window.CTSApp.exportTransactionsCSV()" class="px-3 py-2 text-xs font-semibold rounded bg-white hover:bg-slate-100 text-slate-700 border border-slate-300">
+              Export Ledger CSV
+            </button>
+          </div>
+
+          <!-- Financial Summary Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-xs text-slate-500">Total Media Fees Collected</div>
+              <div id="acc-total-collected" class="text-2xl font-black text-emerald-700 mt-1">৳ 0</div>
+              <div class="text-[11px] text-emerald-600 font-semibold mt-1">Realized CTS Revenue</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-xs text-slate-500">Outstanding Fees Due</div>
+              <div id="acc-total-due" class="text-2xl font-black text-rose-700 mt-1">৳ 0</div>
+              <div class="text-[11px] text-rose-600 font-semibold mt-1">Pending student/tutor arrears</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-xs text-slate-500">Referral Commissions Paid</div>
+              <div id="acc-referral-paid" class="text-2xl font-black text-slate-800 mt-1">৳ 0</div>
+              <div class="text-[11px] text-slate-500 mt-1">Disbursed to coordinators</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+              <div class="text-xs text-slate-500">Referral Pending Payout</div>
+              <div id="acc-referral-pending" class="text-2xl font-black text-amber-700 mt-1">৳ 0</div>
+              <div class="text-[11px] text-amber-600 font-semibold mt-1">Awaiting release</div>
+            </div>
+          </div>
+
+          <!-- Tuition Fee Status Table -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-slate-900 text-sm">Tuition Fee Status Breakdown</h3>
+              <select id="acc-filter-status" class="text-xs p-1.5 border border-slate-300 rounded">
+                <option value="">All Fee Statuses</option>
+                <option value="Due">Due Only</option>
+                <option value="Partially Paid">Partially Paid</option>
+                <option value="Paid">Paid Only</option>
+              </select>
+            </div>
+
+            <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100/80 text-slate-700 font-bold text-xs border-b border-slate-200 uppercase tracking-wider">
+                    <th class="py-3 px-4">Code</th>
+                    <th class="py-3 px-4">Guardian / Area</th>
+                    <th class="py-3 px-4">Media Fee Agreed</th>
+                    <th class="py-3 px-4">Received</th>
+                    <th class="py-3 px-4">Balance Due</th>
+                    <th class="py-3 px-4">Payment Status</th>
+                    <th class="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="accounts-tuition-fees-body" class="divide-y divide-slate-200">
+                  <!-- Injected via app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Transactions Ledger Table -->
+          <div class="space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm">Audited Financial Transaction Ledger</h3>
+            <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100/80 text-slate-700 font-bold text-xs border-b border-slate-200 uppercase tracking-wider">
+                    <th class="py-2.5 px-4">Trx ID</th>
+                    <th class="py-2.5 px-4">Date</th>
+                    <th class="py-2.5 px-4">Type</th>
+                    <th class="py-2.5 px-4">Amount</th>
+                    <th class="py-2.5 px-4">Channel / Ref</th>
+                    <th class="py-2.5 px-4">Party</th>
+                    <th class="py-2.5 px-4">Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="accounts-transactions-body" class="divide-y divide-slate-200">
+                  <!-- Injected via app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 8. FOLLOW-UP & COMMUNICATION LOGS -->
+        <!-- ==================================================== -->
+        <div id="view-followups" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">Communication & Follow-up Log</h2>
+              <p class="text-xs text-slate-500">Record guardian/tutor phone conversations, trial class feedback, and fee reminders.</p>
+            </div>
+            <button onclick="window.CTSApp.openAddFollowUpModal()" class="px-3.5 py-2 text-xs font-bold rounded bg-brand-950 hover:bg-brand-900 text-amber-400 shadow">
+              + Log Follow-up Task
+            </button>
+          </div>
+
+          <!-- Filters -->
+          <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center space-x-3">
+              <label class="flex items-center space-x-1.5 font-bold text-rose-700 cursor-pointer">
+                <input type="checkbox" id="flw-filter-overdue" class="rounded text-rose-600 focus:ring-rose-500">
+                <span>Show Only Overdue Follow-ups</span>
+              </label>
+            </div>
+            <div class="text-xs text-slate-400">
+              Note: Logging follow-ups does not send automated messages without third-party integration.
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="bg-white rounded-lg border border-slate-200 shadow-sm overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100/80 text-slate-700 font-bold text-xs border-b border-slate-200 uppercase tracking-wider">
+                  <th class="py-3 px-4">Log ID</th>
+                  <th class="py-3 px-4">Contact Person</th>
+                  <th class="py-3 px-4">Reason & Channel</th>
+                  <th class="py-3 px-4">Scheduled Date</th>
+                  <th class="py-3 px-4">Outcome / Notes</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="followups-table-body" class="divide-y divide-slate-200">
+                <!-- Injected via app.js -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 9. REVIEWS & SERVICE QUALITY -->
+        <!-- ==================================================== -->
+        <div id="view-reviews" class="view-panel hidden space-y-4">
+
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-xl font-black text-brand-950">Testimonials & Review Moderation Desk</h2>
+              <p class="text-xs text-slate-500">Review feedback from guardians and tutors before approving for public display on CTS portal.</p>
+            </div>
+            <select id="reviews-filter-status" class="text-xs p-2 border border-slate-300 rounded bg-white">
+              <option value="">All Reviews</option>
+              <option value="Pending">Pending Moderation</option>
+              <option value="Approved">Approved / Public</option>
+            </select>
+          </div>
+
+          <!-- Grid of Reviews -->
+          <div id="reviews-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Injected via app.js -->
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 10. REPORTS & ANALYTICS -->
+        <!-- ==================================================== -->
+        <div id="view-reports" class="view-panel hidden space-y-6">
+
+          <div>
+            <h2 class="text-xl font-black text-brand-950">CTS Performance Analytics & Conversion Reports</h2>
+            <p class="text-xs text-slate-500">Key metrics, conversion rates, area distribution, and business performance across Chittagong.</p>
+          </div>
+
+          <!-- Analytics KPI Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Total Inquiries</span>
+              <strong id="rep-total-inquiries" class="text-xl font-bold text-slate-900 mt-1 block">0</strong>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Confirmed Placements</span>
+              <strong id="rep-confirmed" class="text-xl font-bold text-emerald-700 mt-1 block">0</strong>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Conversion Rate</span>
+              <strong id="rep-conversion" class="text-xl font-bold text-amber-700 mt-1 block">0%</strong>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Media Fees Realized</span>
+              <strong id="rep-media-fees" class="text-xl font-bold text-emerald-800 mt-1 block">৳ 0</strong>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Outstanding Arrears</span>
+              <strong id="rep-outstanding" class="text-xl font-bold text-rose-700 mt-1 block">৳ 0</strong>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 block">Referrals Paid</span>
+              <strong id="rep-referrals-paid" class="text-xl font-bold text-slate-800 mt-1 block">৳ 0</strong>
+            </div>
+          </div>
+
+          <!-- Breakdown Sections -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+              <h3 class="font-bold text-slate-900 text-sm mb-3">Top Tuition Demand by Chittagong Area</h3>
+              <div id="report-area-breakdown" class="space-y-1">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+              <h3 class="font-bold text-slate-900 text-sm mb-3">Curriculum Distribution</h3>
+              <div id="report-curriculum-breakdown" class="space-y-1">
+                <!-- Injected via app.js -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- CSV Export Hub -->
+          <div class="bg-brand-950 text-white p-5 rounded-xl border border-brand-800 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h4 class="font-bold text-amber-400 text-sm">Download Raw Data Exports (CSV)</h4>
+              <p class="text-xs text-slate-300">Generate clean spreadsheet-compatible files for offline financial audits and coordinator reporting.</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="window.CTSApp.exportTutorsCSV()" class="px-3 py-1.5 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-white border border-slate-700">
+                Tutors CSV
+              </button>
+              <button onclick="window.CTSApp.exportRequestsCSV()" class="px-3 py-1.5 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-white border border-slate-700">
+                Requests CSV
+              </button>
+              <button onclick="window.CTSApp.exportTransactionsCSV()" class="px-3 py-1.5 text-xs font-bold rounded bg-amber-500 hover:bg-amber-400 text-slate-950">
+                Ledger CSV
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==================================================== -->
+        <!-- 11. SETTINGS & DATA BACKUP VIEW -->
+        <!-- ==================================================== -->
+        <div id="view-settings" class="view-panel hidden space-y-6">
+
+          <div>
+            <h2 class="text-xl font-black text-brand-950">Business Settings & Data Backup Center</h2>
+            <p class="text-xs text-slate-500">Configure business credentials, fee policies, post templates, and export/import database backups.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Settings Form -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <form id="settings-form" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Business Name</label>
+                    <input type="text" id="cfg-business-name" class="w-full p-2 border border-slate-300 rounded text-xs" required>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Tagline</label>
+                    <input type="text" id="cfg-tagline" class="w-full p-2 border border-slate-300 rounded text-xs">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Hotline / Phone</label>
+                    <input type="text" id="cfg-contact-phone" class="w-full p-2 border border-slate-300 rounded text-xs" required>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp Number</label>
+                    <input type="text" id="cfg-whatsapp" class="w-full p-2 border border-slate-300 rounded text-xs">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Support Email</label>
+                    <input type="email" id="cfg-email" class="w-full p-2 border border-slate-300 rounded text-xs">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Physical Office Address</label>
+                  <input type="text" id="cfg-address" class="w-full p-2 border border-slate-300 rounded text-xs">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Default Media Fee Percentage (%)</label>
+                    <input type="number" id="cfg-media-fee-percent" min="0" max="100" class="w-full p-2 border border-slate-300 rounded text-xs" required>
+                    <span class="text-[11px] text-slate-400">CTS standard is 50% of 1st month salary</span>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Default Referral Commission (%)</label>
+                    <input type="number" id="cfg-referral-percent" min="0" max="100" class="w-full p-2 border border-slate-300 rounded text-xs" required>
+                    <span class="text-[11px] text-slate-400">Calculated as 20% of CTS Media Fee</span>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100">
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Default Tuition Post Template</label>
+                  <textarea id="cfg-post-template" rows="5" class="w-full p-2 border border-slate-300 rounded font-mono text-xs"></textarea>
+                  <span class="text-[11px] text-slate-400">Available tags: {CODE}, {AREA}, {CLASS}, {CURRICULUM}, {SUBJECTS}, {DAYS}, {TIME}, {SALARY}, {TUTOR_PREFERENCE}, {TYPE}, {MEDIA_POLICY}, {HOTLINE}</span>
+                </div>
+
+                <button type="submit" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-lg shadow transition">
+                  Save Business Settings
+                </button>
+              </form>
+            </div>
+
+            <!-- Backup & Restore Box -->
+            <div class="space-y-4">
+
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <h3 class="font-bold text-slate-900 text-sm">Backup Full CTS Dataset (JSON)</h3>
+                <p class="text-xs text-slate-500">Download all current tutors, tuition requirements, pipeline logs, ledger transactions, and reviews as an offline JSON snapshot.</p>
+                <button onclick="window.CTSApp.exportDataBackup()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-amber-400 font-bold text-xs rounded-lg shadow transition">
+                  Download Full JSON Backup
+                </button>
+              </div>
+
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <h3 class="font-bold text-slate-900 text-sm">Restore Dataset from JSON</h3>
+                <p class="text-xs text-slate-500">Upload a previously exported CTS backup file. Validation will check format before restoring.</p>
+                <input type="file" id="import-file-input" accept=".json" class="text-xs text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+                <button onclick="window.CTSApp.importDataBackup()" class="w-full py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs rounded-lg shadow transition">
+                  Validate & Restore JSON
+                </button>
+              </div>
+
+              <div class="bg-rose-50 p-5 rounded-xl border border-rose-200 shadow-sm space-y-2">
+                <h3 class="font-bold text-rose-900 text-sm">Reset to Demo Dataset</h3>
+                <p class="text-xs text-rose-700">Restore default demo records (CUET, CU, CMC profiles, initial pipeline requests). Replaces current browser modifications.</p>
+                <button onclick="window.CTSApp.confirmResetDemoData()" class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-lg transition">
+                  Reset All to Clean Demo Data
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- MODALS -->
+  <!-- ==================================================== -->
+
+  <!-- Modal: View Tutor Profile with Admin Verification Checklist -->
+  <div id="modal-view-tutor" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-view-tutor')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <div id="view-tutor-content">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Tutor -->
+  <div id="modal-tutor-form" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-tutor-form')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 id="tutor-modal-title" class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3 mb-4">Add New Tutor Profile</h3>
+      
+      <form id="tutor-form" class="space-y-4 text-xs">
+        <input type="hidden" id="tutor-modal-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+            <input type="text" id="tut-name" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Mobile / WhatsApp Number * (01XXXXXXXXX)</label>
+            <input type="text" id="tut-phone" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email Address</label>
+            <input type="email" id="tut-email" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Gender *</label>
+            <select id="tut-gender" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">University / College *</label>
+            <input type="text" id="tut-university" placeholder="e.g. CUET, CU, CMC, Premier" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Department / Subject *</label>
+            <input type="text" id="tut-department" placeholder="e.g. CSE, Mathematics, MBBS" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Session / Year</label>
+            <input type="text" id="tut-session" placeholder="e.g. 2021-2022" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Honors CGPA</label>
+            <input type="number" id="tut-cgpa" step="0.01" min="0" max="4.00" placeholder="e.g. 3.75" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">HSC GPA</label>
+            <input type="number" id="tut-hsc" step="0.01" min="0" max="5.00" placeholder="e.g. 5.00" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">SSC GPA</label>
+            <input type="number" id="tut-ssc" step="0.01" min="0" max="5.00" placeholder="e.g. 5.00" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Experience (Years)</label>
+            <input type="number" id="tut-exp" min="0" max="25" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Expected Salary Min (৳)</label>
+            <input type="number" id="tut-salary-min" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Expected Salary Max (৳)</label>
+            <input type="number" id="tut-salary-max" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Availability Status</label>
+            <select id="tut-availability" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Available">Available</option>
+              <option value="Busy">Busy</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Initial Verification Status</label>
+            <select id="tut-ver-status" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Pending">Pending</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Verified">Verified</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Chittagong Areas (comma separated)</label>
+          <input type="text" id="tut-areas" placeholder="Nasirabad, GEC Circle, Panchlaish, Agrabad" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Curricula (comma separated)</label>
+          <input type="text" id="tut-mediums" placeholder="Bangla Medium, English Version, English Medium" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Subjects (comma separated)</label>
+          <input type="text" id="tut-subjects" placeholder="Higher Math, Physics, Chemistry, Biology, English" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Private Internal Staff Notes</label>
+          <textarea id="tut-notes" rows="2" class="w-full p-2 border border-slate-300 rounded"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-tutor-form')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-brand-950 text-amber-400 font-bold rounded shadow hover:bg-brand-900">Save Tutor Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: View Tuition Requirement Details -->
+  <div id="modal-view-request" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-view-request')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <div id="view-request-content">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit Tuition Requirement -->
+  <div id="modal-request-form" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-request-form')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 id="request-modal-title" class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-3 mb-4">Create Tuition Requirement</h3>
+      
+      <form id="request-form" class="space-y-4 text-xs">
+        <input type="hidden" id="request-modal-id">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Guardian Name *</label>
+            <input type="text" id="req-guardian" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student Name *</label>
+            <input type="text" id="req-student" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Guardian Phone * (01XXXXXXXXX)</label>
+            <input type="text" id="req-phone" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Private Full Address (Confidential)</label>
+            <input type="text" id="req-address" placeholder="Flat, Road, Building" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">City / District</label>
+            <input type="text" id="req-city" value="Chittagong" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Area / Location *</label>
+            <select id="req-area" class="w-full p-2 border border-slate-300 rounded" required>
+              <option value="Nasirabad">Nasirabad</option>
+              <option value="GEC Circle">GEC Circle</option>
+              <option value="Panchlaish">Panchlaish</option>
+              <option value="Chawkbazar">Chawkbazar</option>
+              <option value="Halishahar">Halishahar</option>
+              <option value="Agrabad">Agrabad</option>
+              <option value="Khulshi">Khulshi</option>
+              <option value="Muradpur">Muradpur</option>
+              <option value="Bahaddarhat">Bahaddarhat</option>
+              <option value="Chandgaon">Chandgaon</option>
+              <option value="Anderkilla">Anderkilla</option>
+              <option value="Kotwali">Kotwali</option>
+              <option value="Lalkhan Bazar">Lalkhan Bazar</option>
+              <option value="Jamal Khan">Jamal Khan</option>
+              <option value="Sholashahar">Sholashahar</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Class / Level *</label>
+            <input type="text" id="req-class" placeholder="e.g. Class 10 (SSC), Class 8" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Curriculum Medium *</label>
+            <select id="req-curriculum" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Bangla Medium">Bangla Medium</option>
+              <option value="English Version">English Version</option>
+              <option value="English Medium (Edexcel/Cambridge)">English Medium (Edexcel/Cambridge)</option>
+              <option value="Admission Preparation">Admission Preparation</option>
+              <option value="Madrasah Medium">Madrasah Medium</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Subjects Needed (comma separated) *</label>
+            <input type="text" id="req-subjects" placeholder="Physics, Higher Math" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student Gender</label>
+            <select id="req-student-gender" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Preferred Tutor Gender</label>
+            <select id="req-pref-gender" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Any">Any Gender</option>
+              <option value="Male">Male Only</option>
+              <option value="Female">Female Only</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Preferred Tutor University</label>
+            <input type="text" id="req-pref-uni" placeholder="e.g. CUET or CU" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Days / Week</label>
+            <input type="number" id="req-days" min="1" max="7" value="3" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Preferred Time / Shift</label>
+            <input type="text" id="req-time" placeholder="e.g. Evening 6:00 PM" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Monthly Salary Budget (৳) *</label>
+            <input type="number" id="req-salary" min="1000" step="500" value="8000" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Tutoring Mode</label>
+            <select id="req-type" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Home Tutoring">Home Tutoring</option>
+              <option value="Online Tutoring">Online Tutoring</option>
+              <option value="Group Tutoring">Group Tutoring</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Pipeline Stage</label>
+            <select id="req-status" class="w-full p-2 border border-slate-300 rounded">
+              <option value="NEW REQUEST">NEW REQUEST</option>
+              <option value="VERIFY REQUIREMENT">VERIFY REQUIREMENT</option>
+              <option value="FIND TUTORS">FIND TUTORS</option>
+              <option value="CONTACT TUTORS">CONTACT TUTORS</option>
+              <option value="SHORTLIST">SHORTLIST</option>
+              <option value="GUARDIAN APPROVAL">GUARDIAN APPROVAL</option>
+              <option value="TRIAL CLASS">TRIAL CLASS</option>
+              <option value="CONFIRM TUITION">CONFIRM TUITION</option>
+              <option value="COMPLETE">COMPLETE</option>
+              <option value="COLLECT MEDIA FEE">COLLECT MEDIA FEE</option>
+              <option value="FOLLOW-UP">FOLLOW-UP</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Referral Coordinator</label>
+            <input type="text" id="req-referral-person" placeholder="e.g. Rashedul Karim" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Private Notes / Student Weaknesses</label>
+          <textarea id="req-notes" rows="2" class="w-full p-2 border border-slate-300 rounded"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-request-form')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-amber-500 text-slate-950 font-bold rounded shadow hover:bg-amber-600">Save Tuition Requirement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Pipeline Stage Transition -->
+  <div id="modal-pipeline-trans" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-pipeline-trans')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 class="text-base font-bold text-slate-900 mb-1">Change Tuition Pipeline Stage</h3>
+      <p class="text-xs text-slate-500 mb-4">Tuition: <strong id="trans-req-code" class="text-brand-950 font-mono"></strong></p>
+
+      <form id="pipeline-trans-form" class="space-y-4 text-xs">
+        <input type="hidden" id="trans-req-id">
+
+        <div>
+          <span class="text-slate-500 block">Current Stage:</span>
+          <span id="trans-current-stage" class="font-bold text-slate-800 text-sm"></span>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Transition to Stage *</label>
+          <select id="trans-next-stage" class="w-full p-2 border border-slate-300 rounded font-semibold text-slate-800">
+            <!-- Injected via app.js -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Staff Note / Activity Details</label>
+          <textarea id="trans-note" rows="3" placeholder="e.g. Trial completed successfully, guardian confirmed schedule..." class="w-full p-2 border border-slate-300 rounded"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-pipeline-trans')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-4 py-2 bg-brand-950 text-amber-400 font-bold rounded">Confirm Transition</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Record Media Fee Payment -->
+  <div id="modal-payment-form" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-payment-form')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 id="pay-modal-title" class="text-base font-bold text-slate-900 border-b border-slate-200 pb-2 mb-3">Record Media Fee Payment</h3>
+
+      <div class="bg-slate-50 p-3 rounded mb-3 text-xs space-y-1">
+        <div class="flex justify-between"><span>Agreed CTS Media Fee:</span><strong id="pay-total-agreed"></strong></div>
+        <div class="flex justify-between"><span>Already Received:</span><strong id="pay-current-received" class="text-emerald-700"></strong></div>
+        <div class="flex justify-between border-t border-slate-200 pt-1 font-bold"><span>Balance Due:</span><strong id="pay-balance-due" class="text-rose-700"></strong></div>
+      </div>
+
+      <form id="payment-form" class="space-y-3 text-xs">
+        <input type="hidden" id="pay-req-id">
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Payment Amount (৳) *</label>
+          <input type="number" id="pay-amount" min="100" class="w-full p-2 border border-slate-300 rounded font-bold text-slate-900" required>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Payment Channel *</label>
+            <select id="pay-method" class="w-full p-2 border border-slate-300 rounded">
+              <option value="bKash">bKash</option>
+              <option value="Nagad">Nagad</option>
+              <option value="Rocket">Rocket</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Cash">Cash in Hand</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">TrxID / Reference</label>
+            <input type="text" id="pay-trx-id" placeholder="e.g. 9J28DA10K" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Paid By (Guardian / Tutor Name)</label>
+          <input type="text" id="pay-payer" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Receipt Notes</label>
+          <input type="text" id="pay-notes" placeholder="e.g. Advance 50% trial fee" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-payment-form')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded">Record In Ledger</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Log Tutor Communication Response -->
+  <div id="modal-contact-tutor" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-contact-tutor')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 id="contact-modal-title" class="text-base font-bold text-slate-900 mb-1">Log Tutor Communication</h3>
+      <p class="text-xs text-slate-500 mb-3">Tutor Contact: <strong id="contact-tutor-phone" class="text-slate-800"></strong></p>
+
+      <form id="contact-tutor-form" class="space-y-3 text-xs">
+        <input type="hidden" id="contact-req-id">
+        <input type="hidden" id="contact-tutor-id">
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Response Outcome *</label>
+          <select id="contact-status" class="w-full p-2 border border-slate-300 rounded">
+            <option value="Interested & Schedule Agreed">Interested & Schedule Agreed</option>
+            <option value="Trial Scheduled">Trial Scheduled</option>
+            <option value="Busy / Schedule Conflict">Busy / Schedule Conflict</option>
+            <option value="Salary Too Low / Declined">Salary Too Low / Declined</option>
+            <option value="No Answer / Call Back Later">No Answer / Call Back Later</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Details & Response Notes</label>
+          <textarea id="contact-notes" rows="3" placeholder="e.g. Free Mon/Wed/Fri after 5:30 PM..." class="w-full p-2 border border-slate-300 rounded"></textarea>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-contact-tutor')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-brand-950 text-amber-400 font-bold rounded">Save Response</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Follow-up Form -->
+  <div id="modal-followup-form" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 relative">
+      <button onclick="window.CTSApp.closeModal('modal-followup-form')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      <h3 id="flw-modal-title" class="text-base font-bold text-slate-900 border-b border-slate-200 pb-2 mb-3">Follow-up Task</h3>
+
+      <form id="flw-form" class="space-y-3 text-xs">
+        <input type="hidden" id="flw-id">
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Contact Name *</label>
+            <input type="text" id="flw-target-name" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Phone Number *</label>
+            <input type="text" id="flw-target-phone" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Target Type</label>
+            <select id="flw-target-type" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Guardian">Guardian</option>
+              <option value="Tutor">Tutor</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Channel</label>
+            <select id="flw-channel" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Phone Call">Phone Call</option>
+              <option value="WhatsApp Follow-up">WhatsApp Follow-up</option>
+              <option value="In-Person Meeting">In-Person Meeting</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Follow-up Reason *</label>
+          <input type="text" id="flw-reason" placeholder="e.g. Trial Class Feedback, Fee reminder" class="w-full p-2 border border-slate-300 rounded" required>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Scheduled Date *</label>
+            <input type="date" id="flw-date" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Assigned Staff</label>
+            <input type="text" id="flw-staff" value="CTS Admin" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Conversation Notes / Outcome</label>
+          <textarea id="flw-response" rows="2" class="w-full p-2 border border-slate-300 rounded"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Status</label>
+          <select id="flw-status" class="w-full p-2 border border-slate-300 rounded">
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Rescheduled">Rescheduled</option>
+          </select>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="window.CTSApp.closeModal('modal-followup-form')" class="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-brand-950 text-amber-400 font-bold rounded">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- APPLICATION SCRIPTS -->
+  <script src="js/store.js"></script>
+  <script src="js/matching.js"></script>
+  <script src="js/post-generator.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

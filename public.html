@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chittagong Tutor Service (CTS) | Premier Home & Online Tutors in Chittagong</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              950: '#060B18',
+              900: '#0A122A',
+              850: '#0F1B3E',
+              800: '#152554',
+              700: '#1D3577',
+              600: '#2A4A9F',
+              500: '#3B64C8',
+            },
+            gold: {
+              50: '#FFFDF0',
+              100: '#FEF9C3',
+              200: '#FEF08A',
+              300: '#FDE047',
+              400: '#FACC15',
+              500: '#EAB308',
+              600: '#CA8A04',
+              700: '#A16207',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+  <!-- Public Toast Container -->
+  <div id="public-toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- MVP Architecture Notice Banner -->
+  <div class="bg-gradient-to-r from-brand-950 via-slate-900 to-brand-950 text-white text-xs py-2 px-4 border-b border-amber-500/30">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center space-x-2">
+        <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 font-black text-[10px] uppercase">Single-Browser MVP</span>
+        <span class="text-slate-300">Data persists locally in this browser. To view staff controls and candidate matching, switch to the <strong>Admin Dashboard</strong>.</span>
+      </div>
+      <a href="index.html" class="text-amber-400 font-bold hover:underline flex items-center space-x-1">
+        <span>Go to Admin Dashboard</span>
+        <span>➔</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="public.html" class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500 text-brand-950 flex items-center justify-center font-black text-2xl shadow-md">
+          CTS
+        </div>
+        <div>
+          <span class="font-black text-brand-950 text-lg tracking-tight block leading-tight">CHITTAGONG</span>
+          <span class="text-xs text-amber-600 font-bold uppercase tracking-wider block">Tutor Service</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
+        <a href="#categories" class="hover:text-brand-900 transition">Categories</a>
+        <a href="#tuitions" class="hover:text-brand-900 transition">Available Tuitions</a>
+        <a href="#tutors" class="hover:text-brand-900 transition">Verified Tutors</a>
+        <a href="#how-it-works" class="hover:text-brand-900 transition">How CTS Works</a>
+        <a href="#testimonials" class="hover:text-brand-900 transition">Reviews</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-3">
+        <button onclick="window.CTSPublic.openBecomeTutorModal()" class="hidden sm:inline-flex px-4 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-brand-950 transition">
+          Become a Tutor
+        </button>
+
+        <button onclick="window.CTSPublic.openRequestTutorModal()" class="px-4 py-2 text-xs font-bold rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-sm transition">
+          Request a Tutor
+        </button>
+
+        <a href="index.html" class="px-3 py-2 text-xs font-bold rounded-lg bg-brand-950 hover:bg-brand-900 text-amber-400 border border-slate-800 transition flex items-center space-x-1" title="Open Internal Admin Dashboard">
+          <span>Admin</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="bg-gradient-to-b from-brand-950 via-brand-900 to-brand-850 text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+    <!-- Subtle Gold Accent Glow -->
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto text-center space-y-6 relative z-10">
+      
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold">
+        <span>📍 Greater Chittagong's Trusted Tuition Media Network</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight max-w-4xl mx-auto text-white">
+        Find Verified University Mentors & Home Tutors in <span class="text-amber-400">Chittagong</span>
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto">
+        Connect with top students and graduates from CUET, Chittagong University, Chittagong Medical College, and Premier University. Reliable, background-verified home and online tutoring.
+      </p>
+
+      <!-- Quick Action CTA Hub -->
+      <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+        <button onclick="window.CTSPublic.openRequestTutorModal()" class="px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm shadow-xl transition transform hover:-translate-y-0.5">
+          Request a Tutor (Free Consultation)
+        </button>
+        <button onclick="window.CTSPublic.openBecomeTutorModal()" class="px-6 py-3.5 bg-brand-800 hover:bg-brand-700 text-white font-bold rounded-xl text-sm border border-slate-700 transition">
+          Register as Tutor
+        </button>
+      </div>
+
+      <!-- Key Trust Metrics -->
+      <div class="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center max-w-3xl mx-auto border-t border-slate-800/80">
+        <div>
+          <div class="text-2xl font-black text-amber-400">100%</div>
+          <div class="text-xs text-slate-400">NID & Student ID Verified</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-amber-400">2-Day</div>
+          <div class="text-xs text-slate-400">Trial Class Evaluation</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-amber-400">15+</div>
+          <div class="text-xs text-slate-400">Chittagong Coverage Zones</div>
+        </div>
+        <div>
+          <div class="text-2xl font-black text-amber-400">0 BDT</div>
+          <div class="text-xs text-slate-400">Guardian Registration Fee</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Service Categories -->
+  <section id="categories" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Tuition Services</span>
+      <h2 class="text-2xl sm:text-3xl font-black text-brand-950 mt-1">Browse Popular Tutoring Categories</h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-2">Comprehensive subject and curriculum coverage tailored for student success.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 transition hover:shadow-md">
+        <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mb-4 font-bold">
+          🏠
+        </div>
+        <h3 class="font-bold text-brand-950 text-base mb-1">Home Tutoring</h3>
+        <p class="text-slate-500 text-xs leading-relaxed">Dedicated one-to-one tutoring at your doorstep across Nasirabad, GEC, Panchlaish, Agrabad, and Khulshi.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 transition hover:shadow-md">
+        <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center text-2xl mb-4 font-bold">
+          💻
+        </div>
+        <h3 class="font-bold text-brand-950 text-base mb-1">Online Tutoring</h3>
+        <p class="text-slate-500 text-xs leading-relaxed">Live interactive sessions via Zoom/Google Meet with digital whiteboard support for remote students.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 transition hover:shadow-md">
+        <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-2xl mb-4 font-bold">
+          📖
+        </div>
+        <h3 class="font-bold text-brand-950 text-base mb-1">English Medium (Edexcel/Cambridge)</h3>
+        <p class="text-slate-500 text-xs leading-relaxed">Specialized mentors for O Level and A Level subjects including Pure Math, Physics, Chemistry, and English.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-amber-400 transition hover:shadow-md">
+        <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl mb-4 font-bold">
+          🎯
+        </div>
+        <h3 class="font-bold text-brand-950 text-base mb-1">University Admission Prep</h3>
+        <p class="text-slate-500 text-xs leading-relaxed">CUET, Medical (MBBS), and Chittagong University admission test preparation guided by top scorers.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Live Available Tuitions Circulars (Privacy Protected) -->
+  <section id="tuitions" class="py-16 bg-slate-100 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Public Circulars</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-brand-950 mt-1">Available Tuition Vacancies</h2>
+          <p class="text-slate-500 text-xs sm:text-sm mt-1">Real-time tuition requirements currently matching in Chittagong.</p>
+        </div>
+        <button onclick="window.CTSPublic.openBecomeTutorModal()" class="text-xs font-bold text-brand-900 bg-white px-4 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 transition">
+          Apply as Qualified Tutor ➔
+        </button>
+      </div>
+
+      <div id="public-tuitions-board" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected via public.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Verified Mentors Showcase -->
+  <section id="tutors" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Top Mentors</span>
+      <h2 class="text-2xl sm:text-3xl font-black text-brand-950 mt-1">Featured Verified CTS Tutors</h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-2">Every tutor undergoes academic verification and in-person interviews before profile approval.</p>
+    </div>
+
+    <div id="public-tutors-showcase" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Injected via public.js -->
+    </div>
+  </section>
+
+  <!-- How CTS Works (4-Step Flow) -->
+  <section id="how-it-works" class="py-16 bg-brand-950 text-white px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto text-center">
+      <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Simple Process</span>
+      <h2 class="text-2xl sm:text-3xl font-black mt-1 mb-12">How Chittagong Tutor Service Works</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <div class="space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-amber-500 text-slate-950 font-black flex items-center justify-center text-lg">
+            1
+          </div>
+          <h4 class="font-bold text-white text-base">Submit Requirement</h4>
+          <p class="text-slate-400 text-xs">Tell us your student's class, subjects, curriculum, and preferred area in Chittagong.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-slate-800 text-amber-400 font-black flex items-center justify-center text-lg border border-slate-700">
+            2
+          </div>
+          <h4 class="font-bold text-white text-base">Tutor Matching</h4>
+          <p class="text-slate-400 text-xs">Our matching desk suggests compatible tutors from CUET, CU, CMC, and premier institutions.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-slate-800 text-amber-400 font-black flex items-center justify-center text-lg border border-slate-700">
+            3
+          </div>
+          <h4 class="font-bold text-white text-base">Trial Class</h4>
+          <p class="text-slate-400 text-xs">Observe a trial class with the selected mentor to evaluate teaching capability and rapport.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="w-12 h-12 mx-auto rounded-full bg-emerald-600 text-white font-black flex items-center justify-center text-lg">
+            4
+          </div>
+          <h4 class="font-bold text-white text-base">Confirm & Continue</h4>
+          <p class="text-slate-400 text-xs">Confirm regular monthly classes. CTS coordinates continuous service quality follow-ups.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials & Reviews -->
+  <section id="testimonials" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto w-full">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Testimonials</span>
+      <h2 class="text-2xl sm:text-3xl font-black text-brand-950 mt-1">What Guardians & Tutors Say About CTS</h2>
+      <p class="text-slate-500 text-xs sm:text-sm mt-2">Only authentic feedback approved by the CTS administration is presented.</p>
+    </div>
+
+    <div id="public-testimonials-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Injected via public.js -->
+    </div>
+  </section>
+
+  <!-- Production Roadmap Notice -->
+  <section class="py-12 bg-amber-50/60 border-y border-amber-200 px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex items-start space-x-3 text-xs text-amber-950">
+        <span class="text-2xl">💡</span>
+        <div>
+          <h4 class="font-bold text-sm text-amber-900 mb-1">CTS Architecture Notice (MVP vs Production Multi-User Roadmap)</h4>
+          <p class="leading-relaxed text-amber-900/90">
+            This platform is currently running as an interactive single-browser client MVP powered by browser <code class="font-mono bg-amber-100 px-1 py-0.5 rounded">localStorage</code>. 
+            For full enterprise multi-user operation across multiple computers and smartphones, CTS requires:
+          </p>
+          <ul class="list-disc ml-5 mt-2 space-y-1 text-amber-800">
+            <li><strong>Central Database:</strong> PostgreSQL / MySQL to store verified tutor records, transactions, and guardian requests centrally.</li>
+            <li><strong>Role-Based Access Control (RBAC):</strong> Separate permission levels for Super Admin, Area Coordinators, Tutors, and Guardians.</li>
+            <li><strong>Authentication & Security:</strong> JWT session tokens, encrypted passwords (bcrypt), and rate-limited API endpoints.</li>
+            <li><strong>Direct WhatsApp & SMS Gateway:</strong> Integration with official WhatsApp Cloud API or BD SMS gateways (e.g. SSL Wireless) to dispatch verified alerts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-brand-950 text-slate-400 text-xs py-12 px-4 sm:px-6 border-t border-slate-800 mt-auto">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <div class="space-y-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-black text-lg">
+            CTS
+          </div>
+          <span class="font-black text-white text-base">Chittagong Tutor Service</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed">
+          The leading tuition media platform connecting quality home and online mentors across Chittagong and Bangladesh.
+        </p>
+      </div>
+
+      <div>
+        <h5 class="font-bold text-white text-sm mb-3">Coverage Areas</h5>
+        <ul class="space-y-1 text-slate-400">
+          <li>Nasirabad & GEC Circle</li>
+          <li>Panchlaish & Chawkbazar</li>
+          <li>Halishahar & Agrabad</li>
+          <li>Khulshi & Muradpur</li>
+          <li>Chandgaon & Bahaddarhat</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-bold text-white text-sm mb-3">Curricula & Subjects</h5>
+        <ul class="space-y-1 text-slate-400">
+          <li>Bangla Medium (Class 1-12)</li>
+          <li>English Version (NCTB)</li>
+          <li>English Medium (Cambridge / Edexcel)</li>
+          <li>Medical & Engineering Admission</li>
+          <li>IELTS & Spoken English</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-bold text-white text-sm mb-3">CTS Office & Inquiries</h5>
+        <p class="text-slate-400 mb-2">Equity Central (Level 4), GEC Circle, CDA Avenue, Chittagong, Bangladesh</p>
+        <p class="text-amber-400 font-bold mb-1">Hotline: +880 1800-000000 (Demo)</p>
+        <p class="text-slate-400">Email: support@cts-demo.local</p>
+        <div class="mt-3">
+          <a href="index.html" class="inline-block px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-400 rounded font-bold transition">
+            Admin Staff Console ➔
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 border-t border-slate-800 text-center text-slate-500">
+      &copy; 2026 Chittagong Tutor Service (CTS). All rights reserved. Functional inspiration from CareTutors.com with original CTS branding.
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp CTA Button -->
+  <a href="https://api.whatsapp.com/send?phone=8801800000000&text=Hello%20CTS,%20I%20am%20looking%20for%20a%20tutor%20in%20Chittagong" target="_blank" class="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-500 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-105" title="Chat on WhatsApp">
+    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564c.173.087.289.129.332.202.043.073.043.42-.101.825zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.434 5.176L2 22l4.981-1.306A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+  </a>
+
+  <!-- Modal: Request a Tutor (Guardian Submission) -->
+  <div id="modal-public-request-tutor" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSPublic.closeModal('modal-public-request-tutor')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <h3 class="text-xl font-bold text-brand-950">Request a Home or Online Tutor</h3>
+        <p class="text-xs text-slate-500">Fill in your requirements. Our Chittagong desk will match and arrange a trial class.</p>
+      </div>
+
+      <form id="public-request-form" class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Guardian Name *</label>
+            <input type="text" id="pub-guard-name" placeholder="e.g. Dr. Kazi Mahfuz" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student Name *</label>
+            <input type="text" id="pub-stud-name" placeholder="e.g. Rayan" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Mobile / WhatsApp Number * (01XXXXXXXXX)</label>
+            <input type="text" id="pub-phone" placeholder="01812345678" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Chittagong Area *</label>
+            <select id="pub-area" class="w-full p-2 border border-slate-300 rounded" required>
+              <option value="Nasirabad">Nasirabad</option>
+              <option value="GEC Circle">GEC Circle</option>
+              <option value="Panchlaish">Panchlaish</option>
+              <option value="Chawkbazar">Chawkbazar</option>
+              <option value="Halishahar">Halishahar</option>
+              <option value="Agrabad">Agrabad</option>
+              <option value="Khulshi">Khulshi</option>
+              <option value="Muradpur">Muradpur</option>
+              <option value="Bahaddarhat">Bahaddarhat</option>
+              <option value="Chandgaon">Chandgaon</option>
+              <option value="Jamal Khan">Jamal Khan</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Class / Level *</label>
+            <input type="text" id="pub-class" placeholder="e.g. Class 10 (SSC), Class 8" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Curriculum Medium *</label>
+            <select id="pub-curriculum" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Bangla Medium">Bangla Medium</option>
+              <option value="English Version">English Version</option>
+              <option value="English Medium (Edexcel/Cambridge)">English Medium</option>
+              <option value="Admission Preparation">Admission Prep</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Subject(s) Needed (comma separated) *</label>
+          <input type="text" id="pub-subjects" placeholder="e.g. Physics, Higher Math" class="w-full p-2 border border-slate-300 rounded" required>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Days / Week</label>
+            <input type="number" id="pub-days" min="1" max="7" value="3" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Monthly Salary Budget (৳)</label>
+            <input type="number" id="pub-salary" min="2000" step="500" value="8000" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Preferred Tutor Gender</label>
+            <select id="pub-gender-pref" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Any">Any Gender</option>
+              <option value="Male">Male Only</option>
+              <option value="Female">Female Only</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg shadow transition">
+            Submit Tuition Request (Free)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Become a Tutor (Tutor Application) -->
+  <div id="modal-public-become-tutor" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 relative">
+      <button onclick="window.CTSPublic.closeModal('modal-public-become-tutor')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl font-bold">&times;</button>
+      
+      <div class="mb-4 border-b border-slate-200 pb-3">
+        <h3 class="text-xl font-bold text-brand-950">Apply as a CTS Tutor</h3>
+        <p class="text-xs text-slate-500">Join Chittagong's most reputable tuition media. Requires NID and student verification.</p>
+      </div>
+
+      <form id="public-tutor-form" class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
+            <input type="text" id="pub-tut-name" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Phone / WhatsApp * (01XXXXXXXXX)</label>
+            <input type="text" id="pub-tut-phone" class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Email Address</label>
+            <input type="email" id="pub-tut-email" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Gender *</label>
+            <select id="pub-tut-gender" class="w-full p-2 border border-slate-300 rounded">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">University *</label>
+            <input type="text" id="pub-tut-uni" placeholder="CUET, CU, CMC, etc." class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Department *</label>
+            <input type="text" id="pub-tut-dept" placeholder="CSE, EEE, Math, etc." class="w-full p-2 border border-slate-300 rounded" required>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">CGPA</label>
+            <input type="number" id="pub-tut-cgpa" step="0.01" min="0" max="4.00" placeholder="3.75" class="w-full p-2 border border-slate-300 rounded">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Areas in Chittagong (comma separated) *</label>
+          <input type="text" id="pub-tut-areas" placeholder="Nasirabad, GEC Circle, Panchlaish, Agrabad" class="w-full p-2 border border-slate-300 rounded" required>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Preferred Subjects (comma separated) *</label>
+          <input type="text" id="pub-tut-subjects" placeholder="Physics, Higher Math, Chemistry, Biology" class="w-full p-2 border border-slate-300 rounded" required>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Minimum Expected Monthly Salary (৳)</label>
+          <input type="number" id="pub-tut-salary" min="3000" step="500" value="8000" class="w-full p-2 border border-slate-300 rounded">
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded border border-amber-200 text-amber-900 text-[11px]">
+          <strong>Media Fee Agreement:</strong> CTS charges a standard 50% media fee on the first month's salary upon successful placement and trial approval. No monthly fees thereafter.
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-3 bg-brand-950 hover:bg-brand-900 text-amber-400 font-bold rounded-lg shadow transition">
+            Submit Application for Verification
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/public.js"></script>
+</body>
+</html>
